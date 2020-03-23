@@ -15,6 +15,7 @@ public class TimeOfLife {
     private long lifeInMinutes;
     private long lifeInHours;
     private long lifeInDays;
+    private long lifeInWeeks;
     private long lifeInMonths;
     private long lifeInYears;
 
@@ -38,7 +39,7 @@ public class TimeOfLife {
     }
 
     private long[] getTimeOfLife() {
-        return new long[]{  this.lifeInMiliSeconds, this.lifeInSeconds, this.lifeInMinutes, this.lifeInHours, this.lifeInDays, this.lifeInMonths, this.lifeInYears };
+        return new long[]{  this.lifeInMiliSeconds, this.lifeInSeconds, this.lifeInMinutes, this.lifeInHours, this.lifeInDays, this.lifeInWeeks, this.lifeInMonths, this.lifeInYears };
     }
 
 
@@ -71,8 +72,9 @@ public class TimeOfLife {
         System.out.println("Time of life in minutes = "     + timeoflife.getTimeOfLife()[2]);
         System.out.println("Time of life in hours = "       + timeoflife.getTimeOfLife()[3]);
         System.out.println("Time of life in days = "        + timeoflife.getTimeOfLife()[4]);
-        System.out.println("Time of life in months = "      + timeoflife.getTimeOfLife()[5]);
-        System.out.println("Time of life in years = "       + timeoflife.getTimeOfLife()[6]);
+        System.out.println("Time of life in weeks = "       + timeoflife.getTimeOfLife()[5]);
+        System.out.println("Time of life in months = "      + timeoflife.getTimeOfLife()[6]);
+        System.out.println("Time of life in years = "       + timeoflife.getTimeOfLife()[7]);
     }
 
 
@@ -97,8 +99,8 @@ public class TimeOfLife {
 
     private Boolean verifyInfoString(String userInfo){
 
-        Boolean pat1 =  Pattern.matches("^\\d\\d:\\d\\d\\s\\d\\d\\s\\d\\d\\s[12]\\d{3}$", userInfo);
-        Boolean pat2 =  Pattern.matches("^\\d\\d\\s\\d\\d\\s[12]\\d{3}$", userInfo);
+        Boolean pat1 =  Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
+        Boolean pat2 =  Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
 
         return pat1 || pat2;
     }
@@ -137,6 +139,7 @@ public class TimeOfLife {
         this.lifeInMonths   = p.getYears() * 12 + p.getMonths();
         this.lifeInYears    = p.getYears();
 
+        this.lifeInWeeks    = this.lifeInDays / 7;
     }
 
 
