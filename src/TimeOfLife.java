@@ -1,3 +1,5 @@
+import com.sun.org.apache.bcel.internal.generic.ATHROW;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -62,8 +64,12 @@ public class TimeOfLife {
             timeoflife.run(stringFromScanner);
         }
 
-
-        timeoflife.calculateTimeOfLife();
+        try {
+            timeoflife.calculateTimeOfLife(); //java.time.format.DateTimeParseException: Text '999-03-05 00:00' could not be parsed at index 0
+        } catch (RuntimeException e) {
+            System.out.println("ERROR: " + e);
+            timeoflife.errorOutAndExit();
+        }
 
         System.out.println("BIRTHDAY INFO: " + timeoflife.getBirthday()[0] + " " + timeoflife.getBirthday()[1] + " " + timeoflife.getBirthday()[2] + " " + timeoflife.getBirthday()[3]);
         System.out.println("_____________________________________");
@@ -76,6 +82,7 @@ public class TimeOfLife {
         System.out.println("Time of life in months = "      + timeoflife.getTimeOfLife()[6]);
         System.out.println("Time of life in years = "       + timeoflife.getTimeOfLife()[7]);
     }
+    
 
 
     private void run(String strBirdthInfo){
@@ -91,8 +98,7 @@ public class TimeOfLife {
                 setTimeOfLife(masScan[0], masScan[1], masScan[2]);
         } else {
 
-            System.out.println("Вы ввели информацию НЕ ПРАВИЛЬНО!\nНужно ввести ДОБ в таком виде: (\"00:00 18 06 1980\" или \"18 06 1980\")");
-            System.exit(0);
+            errorOutAndExit();
         }
 
     }
@@ -101,7 +107,6 @@ public class TimeOfLife {
 
         Boolean pat1 =  Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
         Boolean pat2 =  Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
-
         return pat1 || pat2;
     }
 
@@ -116,30 +121,37 @@ public class TimeOfLife {
 
 
 
-    private void calculateTimeOfLife() {
+    private void calculateTimeOfLife() throws RuntimeException {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String birthdayString = this.MY_BIRTH_YEAR + "-" + this.MY_BIRTH_MONTH + "-" + this.MY_BIRTH_DAY + " " + this.MY_BIRTH_TIME;
-        LocalDateTime birthDataTime = LocalDateTime.parse(birthdayString, formatter);
-        //System.out.println("birthDataTime: "+ birthDataTime);
-        LocalDateTime nowDateTime = LocalDateTime.now();
-        System.out.println("nowDateTime: "+ nowDateTime);
 
-        //this.lifeInMiliSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).toMillis();
-        this.lifeInSeconds      = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
-        this.lifeInMinutes      = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
-        this.lifeInHours        = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
-        this.lifeInDays         = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
+            LocalDateTime birthDataTime = LocalDateTime.parse(birthdayString, formatter);
+            //System.out.println("birthDataTime: "+ birthDataTime);
+            LocalDateTime nowDateTime = LocalDateTime.now();
+            System.out.println("nowDateTime: " + nowDateTime);
 
-        LocalDate nowDate = LocalDate.now();
-        //System.out.println("nowDate:" + nowDate);
+            //this.lifeInMiliSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).toMillis();
+            this.lifeInSeconds = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
+            this.lifeInMinutes = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
+            this.lifeInHours = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
+            this.lifeInDays = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
 
-        LocalDate birthday = LocalDate.of(Integer.parseInt(this.MY_BIRTH_YEAR), Integer.parseInt(this.MY_BIRTH_MONTH), Integer.parseInt(this.MY_BIRTH_DAY));
-        Period p = java.time.Period.between(birthday , nowDate);
-        this.lifeInMonths   = p.getYears() * 12 + p.getMonths();
-        this.lifeInYears    = p.getYears();
+            LocalDate nowDate = LocalDate.now();
+            //System.out.println("nowDate:" + nowDate);
 
-        this.lifeInWeeks    = this.lifeInDays / 7;
+            LocalDate birthday = LocalDate.of(Integer.parseInt(this.MY_BIRTH_YEAR), Integer.parseInt(this.MY_BIRTH_MONTH), Integer.parseInt(this.MY_BIRTH_DAY));
+            Period p = java.time.Period.between(birthday, nowDate);
+            this.lifeInMonths = p.getYears() * 12 + p.getMonths();
+            this.lifeInYears = p.getYears();
+            this.lifeInWeeks = this.lifeInDays / 7;
+
+    }
+
+
+    void errorOutAndExit(){
+        System.out.println("Вы ввели информацию НЕ ПРАВИЛЬНО!\nНужно ввести ДОБ в таком виде: (\"00:00 18 06 1980\" или \"18 06 1980\")");
+        System.exit(0);
     }
 
 
