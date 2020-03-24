@@ -1,5 +1,3 @@
-import com.sun.org.apache.bcel.internal.generic.ATHROW;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
