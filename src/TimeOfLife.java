@@ -21,8 +21,12 @@ public class TimeOfLife {
 
 
     TimeOfLife() {
-        //body();
+
+        System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
+        body(infoFromScanner());
     }
+
+
 
     TimeOfLife(String birthInfoString) {
 
@@ -61,19 +65,15 @@ public class TimeOfLife {
         if (args.length > 0) {
             String stringFromComandLine = "";
             for (String d:args)
-                stringFromComandLine = stringFromComandLine.concat(d + " ");
-                infoString = stringFromComandLine;
+                infoString = stringFromComandLine.concat(d + " ");
 
         } else {
 
             System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
-            String stringFromScanner = infoFromScanner();
-
-            infoString = stringFromScanner;
+            infoString = infoFromScanner();;
         }
 
-        TimeOfLife timeoflife = new TimeOfLife(infoString);
-
+        new TimeOfLife(infoString);
     }
     
 
