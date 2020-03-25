@@ -19,14 +19,15 @@ public class TimeOfLife {
     private long lifeInMonths;
     private long lifeInYears;
 
-/*    TimeOfLife(String birthDay, String birthMonth, String birthYear) {
-        setTimeOfLife(String birthDay, String birthMonth, String birthYear);
+
+    TimeOfLife() {
+        //body();
     }
 
-    TimeOfLife(String birthTime, String birthDay, String birthMonth, String birthYear) {
-        setTimeOfLife(String birthTime, String birthDay, String birthMonth, String birthYear);
-    }*/
+    TimeOfLife(String birthInfoString) {
 
+        body(birthInfoString);
+    }
 
     private void setTimeOfLife(String birthDay, String birthMonth, String birthYear){
         this.MY_BIRTH_TIME = "00:00";
@@ -54,46 +55,25 @@ public class TimeOfLife {
 
     public static void main(String[] args) {
 
-        TimeOfLife timeoflife = new TimeOfLife();
+        String infoString = "";
 
         // args
         if (args.length > 0) {
             String stringFromComandLine = "";
             for (String d:args)
                 stringFromComandLine = stringFromComandLine.concat(d + " ");
-
-            timeoflife.body(stringFromComandLine.trim());
+                infoString = stringFromComandLine;
 
         } else {
 
             System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
-            String stringFromScanner = timeoflife.infoFromScanner();
-            timeoflife.body(stringFromScanner);
+            String stringFromScanner = infoFromScanner();
+
+            infoString = stringFromScanner;
         }
 
+        TimeOfLife timeoflife = new TimeOfLife(infoString);
 
-
-
-
-
-
-        try {
-            timeoflife.calculateTimeOfLife(); //java.time.format.DateTimeParseException: Text '999-03-05 00:00' could not be parsed at index 0
-        } catch (RuntimeException e) {
-            System.out.println("ERROR: " + e);
-            timeoflife.errorOutAndExit();
-        }
-
-        System.out.println("BIRTHDAY INFO: " + timeoflife.getBirthday()[0] + " " + timeoflife.getBirthday()[1] + " " + timeoflife.getBirthday()[2] + " " + timeoflife.getBirthday()[3]);
-        System.out.println("_____________________________________");
-        //System.out.println("Time of life in miliSeconds = " + timeoflife.getTimeOfLife()[0]);
-        System.out.println("Time of life in seconds = "     + timeoflife.getTimeOfLife()[1]);
-        System.out.println("Time of life in minutes = "     + timeoflife.getTimeOfLife()[2]);
-        System.out.println("Time of life in hours = "       + timeoflife.getTimeOfLife()[3]);
-        System.out.println("Time of life in days = "        + timeoflife.getTimeOfLife()[4]);
-        System.out.println("Time of life in weeks = "       + timeoflife.getTimeOfLife()[5]);
-        System.out.println("Time of life in months = "      + timeoflife.getTimeOfLife()[6]);
-        System.out.println("Time of life in years = "       + timeoflife.getTimeOfLife()[7]);
     }
     
 
@@ -113,17 +93,36 @@ public class TimeOfLife {
             errorOutAndExit();
         }
 
+
+        try {
+            calculateTimeOfLife(); //java.time.format.DateTimeParseException: Text '999-03-05 00:00' could not be parsed at index 0
+        } catch (RuntimeException e) {
+            System.out.println("ERROR: " + e);
+            errorOutAndExit();
+        }
+
+        System.out.println("BIRTHDAY INFO: " + getBirthday()[0] + " " + getBirthday()[1] + " " + getBirthday()[2] + " " + getBirthday()[3]);
+        System.out.println("_____________________________________");
+        //System.out.println("Time of life in miliSeconds = " + timeoflife.getTimeOfLife()[0]);
+        System.out.println("Time of life in seconds = "     + getTimeOfLife()[1]);
+        System.out.println("Time of life in minutes = "     + getTimeOfLife()[2]);
+        System.out.println("Time of life in hours = "       + getTimeOfLife()[3]);
+        System.out.println("Time of life in days = "        + getTimeOfLife()[4]);
+        System.out.println("Time of life in weeks = "       + getTimeOfLife()[5]);
+        System.out.println("Time of life in months = "      + getTimeOfLife()[6]);
+        System.out.println("Time of life in years = "       + getTimeOfLife()[7]);
+
     }
 
     private Boolean verifyInfoString(String userInfo){
 
-        Boolean pat1 =  Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
-        Boolean pat2 =  Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo);
+        Boolean pat1 =  Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
+        Boolean pat2 =  Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
         return pat1 || pat2;
     }
 
 
-    private String infoFromScanner() {
+    static String infoFromScanner() {
         Scanner scan = new Scanner(System.in);
         String z = scan.nextLine();
         scan.close();
