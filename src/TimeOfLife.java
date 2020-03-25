@@ -70,7 +70,7 @@ public class TimeOfLife {
         } else {
 
             System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
-            infoString = infoFromScanner();;
+            infoString = infoFromScanner();
         }
 
         new TimeOfLife(infoString);
