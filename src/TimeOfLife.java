@@ -1,14 +1,16 @@
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class TimeOfLife {
+class TimeOfLife {
 
-    private String MY_BIRTH_TIME;
-    private String MY_BIRTH_DAY;
-    private String MY_BIRTH_MONTH;
-    private String MY_BIRTH_YEAR;
+    private String myBirthTime;
+    private String myBirthDay;
+    private String myBirthMonth;
+    private String myBirthYear;
 
     private long lifeInMiliSeconds;
     private long lifeInSeconds;
@@ -22,7 +24,7 @@ public class TimeOfLife {
 
     TimeOfLife() {
 
-        System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
+        System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
         body(infoFromScanner());
     }
 
@@ -34,21 +36,21 @@ public class TimeOfLife {
     }
 
     private void setTimeOfLife(String birthDay, String birthMonth, String birthYear){
-        this.MY_BIRTH_TIME = "00:00";
-        this.MY_BIRTH_DAY = birthDay;
-        this.MY_BIRTH_MONTH = birthMonth;
-        this.MY_BIRTH_YEAR = birthYear;
+        this.myBirthTime = "00:00";
+        this.myBirthDay = birthDay;
+        this.myBirthMonth = birthMonth;
+        this.myBirthYear = birthYear;
     }
 
     private void setTimeOfLife(String birthTime, String birthDay, String birthMonth, String birthYear){
-        this.MY_BIRTH_TIME = birthTime;
-        this.MY_BIRTH_DAY = birthDay;
-        this.MY_BIRTH_MONTH = birthMonth;
-        this.MY_BIRTH_YEAR = birthYear;
+        this.myBirthTime = birthTime;
+        this.myBirthDay = birthDay;
+        this.myBirthMonth = birthMonth;
+        this.myBirthYear = birthYear;
     }
 
     private String[] getBirthday(){
-        return new String[]{ this.MY_BIRTH_TIME, this.MY_BIRTH_DAY, this.MY_BIRTH_MONTH, this.MY_BIRTH_YEAR };
+        return new String[]{ this.myBirthTime, this.myBirthDay, this.myBirthMonth, this.myBirthYear};
     }
 
     private long[] getTimeOfLife() {
@@ -61,15 +63,10 @@ public class TimeOfLife {
 
         String infoString = "";
 
-        // args
         if (args.length > 0) {
-            String stringFromComandLine = "";
-            for (String d:args)
-                infoString = stringFromComandLine.concat(d + " ");
-
+            for (String d:args) infoString = infoString.concat(d + " ");
         } else {
-
-            System.out.println("\nСкотыняка введи свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
+            System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
             infoString = infoFromScanner();
         }
 
@@ -88,10 +85,8 @@ public class TimeOfLife {
                 setTimeOfLife(masScan[0], masScan[1], masScan[2], masScan[3]);
             else
                 setTimeOfLife(masScan[0], masScan[1], masScan[2]);
-        } else {
-
+        } else
             errorOutAndExit();
-        }
 
 
         try {
@@ -134,7 +129,7 @@ public class TimeOfLife {
     private void calculateTimeOfLife() throws RuntimeException {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String birthdayString = this.MY_BIRTH_YEAR + "-" + this.MY_BIRTH_MONTH + "-" + this.MY_BIRTH_DAY + " " + this.MY_BIRTH_TIME;
+        String birthdayString = this.myBirthYear + "-" + this.myBirthMonth + "-" + this.myBirthDay + " " + this.myBirthTime;
 
         LocalDateTime birthDataTime = LocalDateTime.parse(birthdayString, formatter);
         //System.out.println("birthDataTime: "+ birthDataTime);
@@ -142,19 +137,19 @@ public class TimeOfLife {
         System.out.println("nowDateTime: " + nowDateTime);
 
         //this.lifeInMiliSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).toMillis();
-        this.lifeInSeconds = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
-        this.lifeInMinutes = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
-        this.lifeInHours = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
-        this.lifeInDays = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
+        this.lifeInSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
+        this.lifeInMinutes  = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
+        this.lifeInHours    = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
+        this.lifeInDays     = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
+        this.lifeInWeeks    = this.lifeInDays / 7;
 
         LocalDate nowDate = LocalDate.now();
         //System.out.println("nowDate:" + nowDate);
 
-        LocalDate birthday = LocalDate.of(Integer.parseInt(this.MY_BIRTH_YEAR), Integer.parseInt(this.MY_BIRTH_MONTH), Integer.parseInt(this.MY_BIRTH_DAY));
+        LocalDate birthday = LocalDate.of(Integer.parseInt(this.myBirthYear), Integer.parseInt(this.myBirthMonth), Integer.parseInt(this.myBirthDay));
         Period p = java.time.Period.between(birthday, nowDate);
-        this.lifeInMonths = p.getYears() * 12 + p.getMonths();
-        this.lifeInYears = p.getYears();
-        this.lifeInWeeks = this.lifeInDays / 7;
+        this.lifeInMonths   = p.getYears() * 12 + p.getMonths();
+        this.lifeInYears    = p.getYears();
 
     }
 
