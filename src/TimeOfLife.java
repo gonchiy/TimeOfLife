@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 class TimeOfLife {
-
     private String myBirthTime;
     private String myBirthDay;
     private String myBirthMonth;
@@ -27,10 +26,7 @@ class TimeOfLife {
         body(infoFromScanner());
     }
 
-
-
     TimeOfLife(String birthInfoString) {
-
         body(birthInfoString);
     }
 
@@ -56,9 +52,7 @@ class TimeOfLife {
         return new long[]{ this.lifeInMiliSeconds, this.lifeInSeconds, this.lifeInMinutes, this.lifeInHours, this.lifeInDays, this.lifeInWeeks, this.lifeInMonths, this.lifeInYears };
     }
 
-
     public static void main(String[] args) {
-
         String infoString = "05 03 2020";
         //String infoString = null;
         //String infoString = "";
@@ -74,14 +68,10 @@ class TimeOfLife {
                 else new TimeOfLife(infoString);
             }
         }
-
     }
-    
 
     private void body(String strBirdthInfo){
-
         System.out.println("Вы ввели: "+ strBirdthInfo + "\n_____________________________________");
-
         if (verifyInfoString(strBirdthInfo)) {
 
             String[] masScan = strBirdthInfo.split(" ");
@@ -114,12 +104,10 @@ class TimeOfLife {
     }
 
     private Boolean verifyInfoString(String userInfo){
-
         Boolean pat1 =  Pattern.matches("^[012]\\d:[012345]\\d\\s[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
         Boolean pat2 =  Pattern.matches("^[0123]\\d\\s[01]\\d\\s[12]\\d{3}$", userInfo.trim());
         return pat1 || pat2;
     }
-
 
     static String infoFromScanner() {
         Scanner scan = new Scanner(System.in);
@@ -136,7 +124,6 @@ class TimeOfLife {
     }
 
     private void calculateTimeOfLife() throws RuntimeException {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String birthdayString = this.myBirthYear + "-" + this.myBirthMonth + "-" + this.myBirthDay + " " + this.myBirthTime;
 
@@ -159,14 +146,11 @@ class TimeOfLife {
         Period p = java.time.Period.between(birthday, nowDate);
         this.lifeInMonths   = p.getYears() * 12 + p.getMonths();
         this.lifeInYears    = p.getYears();
-
     }
-
 
     void errorOutAndExit(){
         System.out.println("Вы ввели информацию НЕ ПРАВИЛЬНО!\nНужно ввести ДОБ в таком виде: (\"00:00 18 06 1980\" или \"18 06 1980\")");
         System.exit(0);
     }
-
 
 }
