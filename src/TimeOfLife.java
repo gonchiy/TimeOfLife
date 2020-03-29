@@ -23,7 +23,6 @@ class TimeOfLife {
 
 
     TimeOfLife() {
-
         System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
         body(infoFromScanner());
     }
@@ -54,23 +53,22 @@ class TimeOfLife {
     }
 
     private long[] getTimeOfLife() {
-        return new long[]{  this.lifeInMiliSeconds, this.lifeInSeconds, this.lifeInMinutes, this.lifeInHours, this.lifeInDays, this.lifeInWeeks, this.lifeInMonths, this.lifeInYears };
+        return new long[]{ this.lifeInMiliSeconds, this.lifeInSeconds, this.lifeInMinutes, this.lifeInHours, this.lifeInDays, this.lifeInWeeks, this.lifeInMonths, this.lifeInYears };
     }
-
 
 
     public static void main(String[] args) {
 
-        String infoString = "";
+        String infoString = "05 03 1980";
+        //String infoString = "";
 
-        if (args.length > 0) {
-            for (String d:args) infoString = infoString.concat(d + " ");
-        } else {
-            System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
-            infoString = infoFromScanner();
+        if (args.length > 0)
+            new TimeOfLife(TimeOfLife.massToStr(args));
+        else {
+            if ((infoString.equals("")) || (infoString == null)) new TimeOfLife();
+            else new TimeOfLife(infoString);
         }
 
-        new TimeOfLife(infoString);
     }
     
 
@@ -98,7 +96,7 @@ class TimeOfLife {
 
         System.out.println("BIRTHDAY INFO: " + getBirthday()[0] + " " + getBirthday()[1] + " " + getBirthday()[2] + " " + getBirthday()[3]);
         System.out.println("_____________________________________");
-        //System.out.println("Time of life in miliSeconds = " + timeoflife.getTimeOfLife()[0]);
+        System.out.println("Time of life in miliSeconds = " + getTimeOfLife()[0]);
         System.out.println("Time of life in seconds = "     + getTimeOfLife()[1]);
         System.out.println("Time of life in minutes = "     + getTimeOfLife()[2]);
         System.out.println("Time of life in hours = "       + getTimeOfLife()[3]);
@@ -124,7 +122,12 @@ class TimeOfLife {
         return z;
     }
 
-
+    static String massToStr(String[] mass){
+        String str = "";
+        for(int i = 0; i < mass.length; i++)
+            str = (i < mass.length-1) ? str.concat(mass[i] + " ") : str.concat(mass[i]);
+        return str;
+    }
 
     private void calculateTimeOfLife() throws RuntimeException {
 
@@ -136,12 +139,12 @@ class TimeOfLife {
         LocalDateTime nowDateTime = LocalDateTime.now();
         System.out.println("nowDateTime: " + nowDateTime);
 
-        //this.lifeInMiliSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).toMillis();
-        this.lifeInSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
-        this.lifeInMinutes  = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
-        this.lifeInHours    = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
-        this.lifeInDays     = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
-        this.lifeInWeeks    = this.lifeInDays / 7;
+        this.lifeInMiliSeconds  = java.time.Duration.between(birthDataTime, nowDateTime).toMillis();
+        this.lifeInSeconds      = java.time.Duration.between(birthDataTime, nowDateTime).getSeconds();
+        this.lifeInMinutes      = java.time.Duration.between(birthDataTime, nowDateTime).toMinutes();
+        this.lifeInHours        = java.time.Duration.between(birthDataTime, nowDateTime).toHours();
+        this.lifeInDays         = java.time.Duration.between(birthDataTime, nowDateTime).toDays();
+        this.lifeInWeeks        = this.lifeInDays / 7;
 
         LocalDate nowDate = LocalDate.now();
         //System.out.println("nowDate:" + nowDate);
