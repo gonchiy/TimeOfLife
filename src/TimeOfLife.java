@@ -17,9 +17,8 @@ class TimeOfLife {
     private long lifeInHours;
     private long lifeInDays;
     private long lifeInWeeks;
-    private long lifeInMonths;
-    private long lifeInYears;
-
+    private int lifeInMonths;
+    private int lifeInYears;
 
     TimeOfLife() {
         System.out.println("\nВведите свое время/дату рождения в формате (\"hh:mm dd mm yyyy\" или \"dd mm yyyy\"): ");
@@ -53,7 +52,7 @@ class TimeOfLife {
     }
 
     public static void main(String[] args) {
-        String infoString = "05 03 2020";
+        String infoString = "08 04 1020";
         //String infoString = null;
         //String infoString = "";
 
